@@ -10,7 +10,14 @@ class TodoItemsProvider with ChangeNotifier {
     final key = DateTime.now().millisecondsSinceEpoch.toString();
     box.put(key, TodoItem(key: key, label: label, isDone: false));
     await loadTodoItems();
-    notifyListeners();
+  }
+
+  Future<void> invertDoneState(String key) async {
+    final box = await Hive.openBox<TodoItem>('name');
+    final TodoItem editableItem = box.get(key)!;
+    final TodoItem newElement = TodoItem(key: editableItem.key, label: editableItem.label, isDone: !editableItem.isDone);
+    box.put(key, newElement);
+    await loadTodoItems();
   }
 
   Future<void> loadTodoItems() async {

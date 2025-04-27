@@ -46,18 +46,24 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            '${value.todoItems[index].label}',
-                            style: AppTypo.headerM.copyWith(
-                              decoration: (value.todoItems[index].isDone)
-                                  ? TextDecoration.lineThrough
-                                  : TextDecoration.none,
-                              color: (value.todoItems[index].isDone)
-                                  ? AppColors.layer4
-                                  : AppColors.primary,
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                globalProvider.invertDoneState(value.todoItems[index].key);
+                              },
+                              child: Text(
+                                  '${value.todoItems[index].label}',
+                                  style: AppTypo.headerM.copyWith(
+                                    decoration: (value.todoItems[index].isDone)
+                                        ? TextDecoration.lineThrough
+                                        : TextDecoration.none,
+                                    color: (value.todoItems[index].isDone)
+                                        ? AppColors.secondary
+                                        : AppColors.primary,
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                          const Spacer(),
                           InkWell(
                             onTap: () async {
                               final result = await showDialog(
